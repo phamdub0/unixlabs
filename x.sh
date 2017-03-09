@@ -46,4 +46,7 @@ if ! gcloud compute ssh ${INSTANCENAME} \
    
 fi
 
+if ! gcloud compute firewall-rules create mysite --allow=TCP:80 ; then
+  echo "Can't create firewall rule"
+fi
 
