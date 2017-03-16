@@ -3,8 +3,10 @@
 INSTANCENAME=${INSTANCENAME:-"myinst"}
 
 MACHINETYPE=${MACHINETYPE:-"n1-standard-1"}
-IMAGEPROJECT=ubuntu-os-cloud
-IMAGEFAMILY=ubuntu-1604-lts
+#IMAGEPROJECT=ubuntu-os-cloud
+#IMAGEFAMILY=ubuntu-1604-lts
+IMAGEPROJECT=google-containers
+IMAGEFAMILY=container-vm
 INSTANCEZONE=us-central1-a
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
@@ -18,7 +20,8 @@ if ! gcloud compute instances create ${INSTANCENAME} \
    --image-project=${IMAGEPROJECT} \
    --image-family=${IMAGEFAMILY} \
    --zone=${INSTANCEZONE} \
-   --metadata-from-file startup-script=startup.sh ; then
+   --metadata-from-file google-container-manifest=containers.yaml ; then
+#   --metadata-from-file startup-script=startup.sh ; then
 
 
   fatal "Failed to create instance ${INSTANCENAME}"
