@@ -17,7 +17,9 @@ if ! gcloud compute instances create ${INSTANCENAME} \
    --machine-type=${MACHINETYPE} \
    --image-project=${IMAGEPROJECT} \
    --image-family=${IMAGEFAMILY} \
-   --zone=${INSTANCEZONE} ; then
+   --zone=${INSTANCEZONE} \
+   --metadata-from-file startup-script=startup.sh ; then
+
 
   fatal "Failed to create instance ${INSTANCENAME}"
 
@@ -29,6 +31,8 @@ while ! gcloud compute ssh ${INSTANCENAME} \
   echo "Waiting..."
 done
 
+exit 0
+
 if ! gcloud compute copy-files \
 	${DIR}/y.sh ${DIR}/util.sh ${INSTANCENAME}: \
        --zone=${INSTANCEZONE} ; then
@@ -36,6 +40,7 @@ if ! gcloud compute copy-files \
   fatal "Failed to copy files to instance ${INSTANCENAME}"
    
 fi
+
 
 if ! gcloud compute ssh ${INSTANCENAME} \
        --zone=${INSTANCEZONE} \
